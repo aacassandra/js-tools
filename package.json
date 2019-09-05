@@ -1,0 +1,25 @@
+{
+  "name": "js-tools",
+  "version": "19.9.5",
+  "description": "This is a library to make easy every build project",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aacassandra/js-tools.git"
+  },
+  "keywords": [
+    "js-tools"
+  ],
+  "author": "aacassandra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aacassandra/js-tools/issues"
+  },
+  "homepage": "https://github.com/aacassandra/js-tools#readme"
+}
