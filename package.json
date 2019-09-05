@@ -1,13 +1,16 @@
 {
-  "name": "js-tools",
+  "name": "@aacassandra/js-tools",
   "version": "19.9.5",
   "description": "This is a library to make easy every build project",
-  "main": "index.js",
+  "main": "src/tools",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "repository": {
     "type": "git",
@@ -16,10 +19,17 @@
   "keywords": [
     "js-tools"
   ],
-  "author": "aacassandra",
+  "author": {
+    "name": "Alauddin Afif Cassandra",
+    "email": "alauddinafifcassandra@programmer.net",
+    "url": "aacassandra.github.io"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/aacassandra/js-tools/issues"
   },
-  "homepage": "https://github.com/aacassandra/js-tools#readme"
+  "homepage": "https://github.com/aacassandra/js-tools#readme",
+  "dependencies": {
+    "jquery": "^3.4.1"
+  }
 }
