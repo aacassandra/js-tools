@@ -92,11 +92,18 @@ export let JqLib = {
 export let JsLib = {
   get: {
     month: {
-      string(monthNumber) {
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-          "July", "August", "September", "October", "November", "December"
-        ];
-
+      // Style is full or minimalist
+      string(monthNumber = 0, style = 'full') {
+        let monthNames = []
+        if (style == 'full') {
+          monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+          ];
+        } else if (style == 'minimalist') {
+          monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+          ];
+        }
         return monthNames[monthNumber];
       }
     },
@@ -175,7 +182,7 @@ export let JsLib = {
         date = set.UTC(date)
         return date;
       },
-      custom(date = null) {
+      custom(date = null, format = []) {
         date = JsLib.get.date.init(date)
 
         var _dd = date.getDate();
@@ -192,14 +199,26 @@ export let JsLib = {
         date = _yyyy + "-" + _mm + "-" + _dd;
         return date;
       },
+      custom2(date = null, monthStyle = 'full') {
+        date = JsLib.get.date.init(date)
+
+        var _d = date.getDate();
+        var _mmm = date.getMonth(); //January is 0!
+        _mmm = JsLib.get.month.string(_mmm, monthStyle)
+        var _yyyy = date.getFullYear();
+
+        date = _d + ' ' + _mmm + ' ' + _yyyy;
+        return date;
+      },
       number(date) {
         date = date.replace("-", "");
         date = date.replace("-", "");
         return date;
       }
     },
+    // data.sort(tools.dynamicSort("name"))
     sort: {
-      array(property = []) {
+      array(property = "") {
         var sortOrder = 1;
         if (property[0] === "-") {
           sortOrder = -1;
