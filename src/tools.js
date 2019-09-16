@@ -107,6 +107,20 @@ export let JsLib = {
         return monthNames[monthNumber];
       }
     },
+    time: {
+      diff(timeStart = new Date(), timeEnd = new Date()) {
+        var timeStart = new Date(timeStart).getTime();
+        var timeEnd = new Date(timeEnd).getTime();
+        var hourDiff = timeEnd - timeStart; //in ms
+        var secDiff = hourDiff / 1000; //in s
+        var minDiff = hourDiff / 60 / 1000; //in minutes
+        var hDiff = hourDiff / 3600 / 1000; //in hours
+        var humanReadable = {};
+        humanReadable.hours = Math.floor(hDiff);
+        humanReadable.minutes = minDiff - 60 * humanReadable.hours;
+        return humanReadable;
+      }
+    },
     date: {
       init(date = null) {
         let _date;
@@ -117,14 +131,45 @@ export let JsLib = {
         }
         return _date;
       },
-      property(date = new Date(), utc = false) {
+      property(date = new Date(), utc = false, string = false) {
+        if (date == '' || date == null || date == undefined) {
+          date = new Date()
+        } else {
+          date = new Date(date)
+        }
+
         var _dd = utc ? date.getUTCDate() : date.getDate();
         var _mm = utc ? date.getUTCMonth() : date.getMonth(); //January is 0!
         var _yyyy = utc ? date.getUTCFullYear() : date.getFullYear();
         var _h = utc ? date.getUTCHours() : date.getHours();
         var _m = utc ? date.getUTCMinutes() : date.getMinutes();
         var _s = utc ? date.getUTCSeconds() : date.getSeconds();
+
+        let fix = {
+          string(d) {
+            if (d <= 9) {
+              d = '0' + d
+            } else {
+              let _dd = d
+              _dd = _dd.toString()
+              d = _dd
+            }
+            return d
+          }
+        }
+
+        if (string) {
+          _yyyy = _yyyy.toString()
+          _dd = fix.string(_dd)
+          _mm = fix.string((_mm + 1))
+
+          _h = fix.string(_h)
+          _m = fix.string(_m)
+          _s = fix.string(_s)
+        }
+
         let property = {
+          original: date,
           year: _yyyy,
           month: _mm,
           day: _dd,
@@ -134,7 +179,7 @@ export let JsLib = {
         }
         return property;
       },
-      UTC(date = null) {
+      UTC(date = null, plusDate = 0) {
         let set = {
           UTC(_date = {
             year: 0,
@@ -178,13 +223,18 @@ export let JsLib = {
         }
 
         date = JsLib.get.date.init(date)
+        if (plusDate) {
+          date.setDate(date.getDate() + plusDate)
+        }
         date = JsLib.get.date.property(date, true)
         date = set.UTC(date)
         return date;
       },
-      custom(date = null, format = []) {
+      custom(date = null, plusDate = 0) {
         date = JsLib.get.date.init(date)
-
+        if (plusDate) {
+          date.setDate(date.getDate() + plusDate)
+        }
         var _dd = date.getDate();
         var _mm = date.getMonth() + 1; //January is 0!
 
