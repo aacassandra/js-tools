@@ -1,4 +1,10 @@
 // This libraries need jquery
+var ucase = new RegExp("[A-Z]+");
+var lcase = new RegExp("[a-z]+");
+var num = new RegExp("[0-9]+");
+var schar = new RegExp("[-!$%^&*()_+|~={}:/?,.@#[\\\]]+");
+var phonec = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+var mailc = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export let BsLib = {
   set: {
@@ -23,19 +29,21 @@ export let JqLib = {
     http(data = null, options = {
       method: '',
       url: '',
-      parse: false
-    }) {
+      parse: false,
+      headers: {}
+    }, setup = {}) {
       return new Promise((resolve, reject) => {
         let tmp = {
           status: false,
           output: null
         }
 
+        $.ajaxSetup(setup)
         $.ajax({
           method: options.method,
           url: options.url,
-          headers: options.header,
-          data: data,
+          headers: options.headers,
+          data: data
         }).done((response) => {
           tmp.status = true
           if (options.parse) {
@@ -91,6 +99,26 @@ export let JqLib = {
 }
 export let JsLib = {
   get: {
+    validate: {
+      min1Uppercase(string = '') {
+        return ucase.test(string)
+      },
+      min1Lowercase(string = '') {
+        return lcase.test(string)
+      },
+      min1Number(string = '') {
+        return num.test(string)
+      },
+      min1SpecialChar(string = '') {
+        return schar.test(string)
+      },
+      email(email) {
+        return mailc.test(email);
+      },
+      phone(phoneNumber) {
+        return phonec.test(phoneNumber)
+      }
+    },
     month: {
       // Style is full or minimalist
       string(monthNumber = 0, style = 'full') {
