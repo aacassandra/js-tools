@@ -6,6 +6,30 @@ var schar = new RegExp("[-!$%^&*()_+|~={}:/?,.@#[\\\]]+");
 var phonec = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
 var mailc = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+export let DtLib = {
+  set: {
+    init(id = '', options = {
+      select: true,
+      paging: true,
+      searching: true,
+      ordering: true,
+      info: true,
+      autoWidth: true,
+      dom: "Bfrtip",
+      lengthMenu: [
+        [5, 10, 25, 50, -1],
+        ['5 rows', '10 rows', '25 rows', '50 rows', 'Show all']
+      ],
+      buttons: ["pageLength", "copy", "excel"]
+    }) {
+      $("#" + id).DataTable(options);
+    },
+    destroy(id = '') {
+      $("#" + id).DataTable().destroy()
+    }
+  }
+}
+
 export let BsLib = {
   set: {
     form: {
