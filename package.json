@@ -1,6 +1,6 @@
 {
   "name": "@aacassandra/js-tools",
-  "version": "19.9.20",
+  "version": "19.9.22",
   "description": "This is a library to make easy every build project",
   "main": "src/tools",
   "directories": {
