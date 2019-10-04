@@ -42,6 +42,7 @@ export let DtLib = {
           });
         });
       }
+      return table
     },
     destroy(id = '') {
       $("#" + id).DataTable().destroy()
@@ -73,7 +74,8 @@ export let JqLib = {
       method: '',
       url: '',
       parse: false,
-      headers: {}
+      headers: {},
+      progress: ''
     }, setup = {}) {
       return new Promise((resolve, reject) => {
         let tmp = {
@@ -86,7 +88,24 @@ export let JqLib = {
           method: options.method,
           url: options.url,
           headers: options.headers,
-          data: data
+          data: data,
+          xhr: function() {
+            var xhr = $.ajaxSettings.xhr();
+            xhr.onprogress = function e() {
+              // For downloads
+              if (e.lengthComputable) {
+                console.log(e.loaded / e.total);
+              }
+            };
+            xhr.upload.onprogress = function(e) {
+              // For uploads
+              if (e.lengthComputable) {
+                console.log(e.loaded / e.total);
+                $('#' + options.progress).css('width', (e.loaded * 100 / e.total) + '%')
+              }
+            };
+            return xhr;
+          },
         }).done((response) => {
           tmp.status = true
           if (options.parse) {
