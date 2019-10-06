@@ -94,13 +94,13 @@ export let JqLib = {
             xhr.onprogress = function e() {
               // For downloads
               if (e.lengthComputable) {
-                console.log(e.loaded / e.total);
+                // console.log(e.loaded / e.total);
               }
             };
             xhr.upload.onprogress = function(e) {
               // For uploads
               if (e.lengthComputable) {
-                console.log(e.loaded / e.total);
+                // console.log(e.loaded / e.total);
                 $('#' + options.progress).css('width', (e.loaded * 100 / e.total) + '%')
               }
             };
@@ -126,6 +126,39 @@ export let JqLib = {
           }
           resolve(tmp)
         });
+      })
+    },
+    axios(data = null, options = {
+      method: '',
+      url: '',
+      headers: {},
+      progress: ''
+    }) {
+      return new Promise((resolve, reject) => {
+        let tmp = {
+          status: false,
+          output: null
+        }
+        axios({
+            method: options.method,
+            url: options.url,
+            data: data,
+            config: { headers: options.headers },
+            onUploadProgress: function(progressEvent) {
+              var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+              $('#' + options.progress).css('width', percentCompleted + '%')
+            }
+          })
+          .then(function(response) {
+            tmp.status = true
+            tmp.output = response.data
+            resolve(tmp)
+          })
+          .catch(function(response) {
+            tmp.status = false
+            tmp.output = response
+            resolve(tmp)
+          });
       })
     },
     form: {
