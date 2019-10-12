@@ -242,6 +242,10 @@ export let JsLib = {
         humanReadable.hours = Math.floor(hDiff);
         humanReadable.minutes = minDiff - 60 * humanReadable.hours;
         return humanReadable;
+      },
+      diffMinutes(startDate, endDate) {
+        var diff = endDate.getTime() - startDate.getTime();
+        return (diff / 60000);
       }
     },
     date: {
