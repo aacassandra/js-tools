@@ -246,6 +246,15 @@ export let JsLib = {
       diffMinutes(startDate, endDate) {
         var diff = endDate.getTime() - startDate.getTime();
         return (diff / 60000);
+      },
+      number(time, fromDate = false) {
+        if (fromDate) {
+          time = time.substring(11, 16)
+        }
+
+        time = time.replace(":", "");
+        time = time * 1
+        return time;
       }
     },
     date: {
@@ -357,7 +366,7 @@ export let JsLib = {
         date = set.UTC(date)
         return date;
       },
-      custom(date = null, plusDate = 0) {
+      custom(date = null, plusDate = 0, includeTime = false) {
         date = JsLib.get.date.init(date)
         if (plusDate) {
           date.setDate(date.getDate() + plusDate)
@@ -373,8 +382,28 @@ export let JsLib = {
         if (_mm < 10) {
           _mm = "0" + _mm;
         }
-        date = _yyyy + "-" + _mm + "-" + _dd;
-        return date;
+
+        if (includeTime) {
+          var _h = date.getHours();
+          var _m = date.getMinutes();
+          var _s = date.getSeconds();
+          if (_h < 10) {
+            _h = "0" + _h;
+          }
+
+          if (_m < 10) {
+            _m = "0" + _m;
+          }
+
+          if (_s < 10) {
+            _s = "0" + _s;
+          }
+          date = _yyyy + "-" + _mm + "-" + _dd + " " + _h + ":" + _m + ":" + _s;
+          return date;
+        } else {
+          date = _yyyy + "-" + _mm + "-" + _dd;
+          return date;
+        }
       },
       custom2(date = null, monthStyle = 'full') {
         date = JsLib.get.date.init(date)
@@ -387,9 +416,14 @@ export let JsLib = {
         date = _d + ' ' + _mmm + ' ' + _yyyy;
         return date;
       },
-      number(date) {
+      number(date, fromFullDate = false) {
+        if (fromFullDate) {
+          date = date.substring(0, 10)
+        }
+
         date = date.replace("-", "");
         date = date.replace("-", "");
+        date = date * 1
         return date;
       }
     },
