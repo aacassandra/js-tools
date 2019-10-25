@@ -255,6 +255,14 @@ export let JsLib = {
         time = time.replace(":", "");
         time = time * 1
         return time;
+      },
+      plus(date = null, hours = 0, minutes = 0, seconds = 0) {
+        const newDate = new Date(date);
+        newDate.setHours(newDate.getHours() + (hours * 1));
+        newDate.setMinutes(newDate.getMinutes() + (minutes * 1));
+        newDate.setSeconds(newDate.getSeconds() + (seconds * 1));
+        let fixDate = newDate
+        return fixDate
       }
     },
     date: {
